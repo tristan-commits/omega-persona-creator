@@ -14,9 +14,11 @@ interface PersonaData {
   age: string;
   education: string;
   industry: string;
+  industryOther: string;
   businessSize: string;
   jobTitle: string;
   jobMeasurement: string;
+  jobMeasurementOther: string;
   reportsTo: string;
   goals: string;
   challenges: string[];

@@ -21,9 +21,11 @@ interface PersonaData {
   age: string;
   education: string;
   industry: string;
+  industryOther: string;
   businessSize: string;
   jobTitle: string;
   jobMeasurement: string;
+  jobMeasurementOther: string;
   reportsTo: string;
   goals: string;
   challenges: string[];
@@ -48,21 +50,30 @@ const STEPS = [
 ];
 
 const CHALLENGE_OPTIONS = [
-  "Limited budget",
-  "Lack of resources",
-  "Time constraints",
-  "Technical knowledge gaps",
-  "Team alignment",
-  "Market competition"
+  "Limited budget to run multi-channel campaigns effectively",
+  "Difficulty aligning marketing and sales goals",
+  "Measuring ROI accurately across channels",
+  "Recruiting and retaining skilled team members",
+  "Keeping up with rapidly changing digital trends",
+  "Managing stakeholder expectations"
 ];
 
 const PAIN_POINT_OPTIONS = [
-  "Inefficient processes",
-  "Poor data quality",
-  "Integration issues",
-  "Scalability concerns",
-  "Security risks",
-  "User adoption"
+  "Inconsistent lead quality from campaigns",
+  "Lack of integrated tools for tracking results",
+  "Overwhelmed by managing too many platforms",
+  "Not enough time to analyze performance data",
+  "Poor communication between teams",
+  "Difficulty proving marketing value to leadership"
+];
+
+const JOB_MEASUREMENT_OPTIONS = [
+  "Lead generation volume",
+  "Marketing campaign ROI",
+  "Customer acquisition cost (CAC)",
+  "Brand awareness metrics",
+  "Sales pipeline contribution",
+  "Engagement rate on digital channels"
 ];
 
 const TOOL_OPTIONS = [
@@ -91,9 +102,11 @@ export function PersonaForm({ onComplete }: { onComplete: (data: PersonaData) =>
     age: "",
     education: "",
     industry: "",
+    industryOther: "",
     businessSize: "",
     jobTitle: "",
     jobMeasurement: "",
+    jobMeasurementOther: "",
     reportsTo: "",
     goals: "",
     challenges: [],
@@ -348,17 +361,30 @@ export function PersonaForm({ onComplete }: { onComplete: (data: PersonaData) =>
                     <SelectValue placeholder="Select industry" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="technology">Technology</SelectItem>
-                    <SelectItem value="healthcare">Healthcare</SelectItem>
-                    <SelectItem value="finance">Finance</SelectItem>
-                    <SelectItem value="retail">Retail</SelectItem>
-                    <SelectItem value="manufacturing">Manufacturing</SelectItem>
-                    <SelectItem value="education">Education</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
+                    <SelectItem value="Technology">Technology</SelectItem>
+                    <SelectItem value="SaaS / Technology">SaaS / Technology</SelectItem>
+                    <SelectItem value="Healthcare">Healthcare</SelectItem>
+                    <SelectItem value="Finance">Finance</SelectItem>
+                    <SelectItem value="Retail">Retail</SelectItem>
+                    <SelectItem value="Manufacturing">Manufacturing</SelectItem>
+                    <SelectItem value="Education">Education</SelectItem>
+                    <SelectItem value="Other">Other</SelectItem>
                   </SelectContent>
                 </Select>
                 {errors.industry && <p className="text-sm text-destructive mt-1">{errors.industry}</p>}
               </div>
+
+              {formData.industry === "Other" && (
+                <div>
+                  <Label htmlFor="industryOther">Please specify industry *</Label>
+                  <Input
+                    id="industryOther"
+                    placeholder="Enter your industry"
+                    value={formData.industryOther}
+                    onChange={(e) => setFormData({ ...formData, industryOther: e.target.value })}
+                  />
+                </div>
+              )}
 
               <div>
                 <Label htmlFor="businessSize">Size of Business *</Label>
@@ -367,11 +393,11 @@ export function PersonaForm({ onComplete }: { onComplete: (data: PersonaData) =>
                     <SelectValue placeholder="Select business size" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="1-10">1-10 employees</SelectItem>
-                    <SelectItem value="11-50">11-50 employees</SelectItem>
-                    <SelectItem value="51-200">51-200 employees</SelectItem>
-                    <SelectItem value="201-500">201-500 employees</SelectItem>
-                    <SelectItem value="500+">500+ employees</SelectItem>
+                    <SelectItem value="1-10 employees">1-10 employees</SelectItem>
+                    <SelectItem value="11-50 employees">11-50 employees</SelectItem>
+                    <SelectItem value="51-200 employees">51-200 employees</SelectItem>
+                    <SelectItem value="201-500 employees">201-500 employees</SelectItem>
+                    <SelectItem value="500+ employees">500+ employees</SelectItem>
                   </SelectContent>
                 </Select>
                 {errors.businessSize && <p className="text-sm text-destructive mt-1">{errors.businessSize}</p>}
@@ -397,15 +423,37 @@ export function PersonaForm({ onComplete }: { onComplete: (data: PersonaData) =>
               </div>
 
               <div>
-                <Label htmlFor="jobMeasurement">How is their job measured? *</Label>
-                <Textarea
-                  id="jobMeasurement"
-                  placeholder="e.g., Lead generation, conversion rates, ROI"
-                  value={formData.jobMeasurement}
-                  onChange={(e) => setFormData({ ...formData, jobMeasurement: e.target.value })}
-                  className={errors.jobMeasurement ? "border-destructive" : ""}
-                  rows={3}
-                />
+                <Label>How is their job measured? *</Label>
+                <div className="space-y-3 mt-2">
+                  {JOB_MEASUREMENT_OPTIONS.map((metric) => (
+                    <div key={metric} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`metric-${metric}`}
+                        checked={formData.jobMeasurement.includes(metric)}
+                        onCheckedChange={() => {
+                          const current = formData.jobMeasurement ? formData.jobMeasurement.split(", ") : [];
+                          const newValue = current.includes(metric)
+                            ? current.filter(m => m !== metric).join(", ")
+                            : [...current, metric].filter(Boolean).join(", ");
+                          setFormData({ ...formData, jobMeasurement: newValue });
+                        }}
+                      />
+                      <label htmlFor={`metric-${metric}`} className="text-sm cursor-pointer">
+                        {metric}
+                      </label>
+                    </div>
+                  ))}
+                  <div>
+                    <Label htmlFor="jobMeasurementOther" className="text-sm">Other (please specify)</Label>
+                    <Input
+                      id="jobMeasurementOther"
+                      placeholder="Other measurement metrics..."
+                      value={formData.jobMeasurementOther}
+                      onChange={(e) => setFormData({ ...formData, jobMeasurementOther: e.target.value })}
+                      className="mt-1"
+                    />
+                  </div>
+                </div>
                 {errors.jobMeasurement && <p className="text-sm text-destructive mt-1">{errors.jobMeasurement}</p>}
               </div>
 
@@ -445,13 +493,14 @@ export function PersonaForm({ onComplete }: { onComplete: (data: PersonaData) =>
                 <Label>What are their biggest challenges? *</Label>
                 <div className="space-y-3 mt-2">
                   {CHALLENGE_OPTIONS.map((challenge) => (
-                    <div key={challenge} className="flex items-center space-x-2">
+                    <div key={challenge} className="flex items-start space-x-2">
                       <Checkbox
                         id={`challenge-${challenge}`}
                         checked={formData.challenges.includes(challenge)}
                         onCheckedChange={() => toggleArrayItem(formData.challenges, challenge, "challenges")}
+                        className="mt-1"
                       />
-                      <label htmlFor={`challenge-${challenge}`} className="text-sm cursor-pointer">
+                      <label htmlFor={`challenge-${challenge}`} className="text-sm cursor-pointer leading-relaxed">
                         {challenge}
                       </label>
                     </div>
@@ -481,13 +530,14 @@ export function PersonaForm({ onComplete }: { onComplete: (data: PersonaData) =>
                 <Label>What are their main pain points? *</Label>
                 <div className="space-y-3 mt-2">
                   {PAIN_POINT_OPTIONS.map((painPoint) => (
-                    <div key={painPoint} className="flex items-center space-x-2">
+                    <div key={painPoint} className="flex items-start space-x-2">
                       <Checkbox
                         id={`painPoint-${painPoint}`}
                         checked={formData.painPoints.includes(painPoint)}
                         onCheckedChange={() => toggleArrayItem(formData.painPoints, painPoint, "painPoints")}
+                        className="mt-1"
                       />
-                      <label htmlFor={`painPoint-${painPoint}`} className="text-sm cursor-pointer">
+                      <label htmlFor={`painPoint-${painPoint}`} className="text-sm cursor-pointer leading-relaxed">
                         {painPoint}
                       </label>
                     </div>

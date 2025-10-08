@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import heroImage from "@/assets/hero-persona.png";
 
-export function HeroSection({ onGetStarted }: { onGetStarted: () => void }) {
+export function HeroSection({ onGetStarted, onSeeExample }: { onGetStarted: () => void; onSeeExample: () => void }) {
   return (
     <section className="relative hero-gradient text-primary-foreground overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-transparent" />
@@ -31,13 +31,14 @@ export function HeroSection({ onGetStarted }: { onGetStarted: () => void }) {
                 onClick={onGetStarted}
                 className="group"
               >
-                Start Creating Your Persona
+                Create my persona
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
               
               <Button 
                 variant="outline" 
                 size="xl"
+                onClick={onSeeExample}
                 className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 text-primary-foreground"
               >
                 See Example

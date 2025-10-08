@@ -16,9 +16,11 @@ interface PersonaData {
   age: string;
   education: string;
   industry: string;
+  industryOther: string;
   businessSize: string;
   jobTitle: string;
   jobMeasurement: string;
+  jobMeasurementOther: string;
   reportsTo: string;
   goals: string;
   challenges: string[];
@@ -44,6 +46,34 @@ const Index = () => {
     }, 100);
   };
 
+  const handleSeeExample = () => {
+    const examplePersona: PersonaData = {
+      name: "Sophie Carter",
+      role: "Marketing Manager",
+      age: "34",
+      education: "Master's in Marketing",
+      industry: "SaaS / Technology",
+      industryOther: "",
+      businessSize: "51-200 employees",
+      jobTitle: "Marketing Manager",
+      jobMeasurement: "Marketing campaign ROI, Lead generation volume, Engagement rate on digital channels, Sales pipeline contribution",
+      jobMeasurementOther: "",
+      reportsTo: "VP of Marketing",
+      goals: "Grow brand awareness in new markets, increase qualified leads by 20% in the next quarter, and improve marketing ROI by optimizing digital campaigns.",
+      challenges: ["Limited budget to run multi-channel campaigns effectively", "Difficulty aligning marketing and sales goals", "Measuring ROI accurately across channels", "Recruiting and retaining skilled team members"],
+      challengesOther: "",
+      painPoints: ["Inconsistent lead quality from campaigns", "Lack of integrated tools for tracking results", "Overwhelmed by managing too many platforms", "Not enough time to analyze performance data"],
+      painPointsOther: "",
+      tools: ["HubSpot", "Google Analytics", "Slack"],
+      toolsOther: "Trello, Canva, LinkedIn Ads",
+      communication: ["Email", "LinkedIn", "Phone"],
+      infoSources: ["Industry blogs", "LinkedIn", "Podcasts"],
+      socialNetworks: ["LinkedIn", "Twitter/X", "Facebook"],
+    };
+    setPersonaData(examplePersona);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const handleComplete = (data: PersonaData) => {
     setPersonaData(data);
     setShowForm(false);
@@ -60,7 +90,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
-      {!personaData && <HeroSection onGetStarted={handleGetStarted} />}
+      {!personaData && <HeroSection onGetStarted={handleGetStarted} onSeeExample={handleSeeExample} />}
       
       {showForm && !personaData && (
         <div ref={formRef} id="form-section" className="bg-background">
