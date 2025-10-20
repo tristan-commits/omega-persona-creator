@@ -13,6 +13,16 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+      },
+      fontSize: {
+        'heading-lg': ['2.5rem', { lineHeight: '1.2', fontWeight: '700' }], // 40px
+        'heading-md': ['2rem', { lineHeight: '1.3', fontWeight: '700' }],    // 32px
+        'subheading-lg': ['1.75rem', { lineHeight: '1.4', fontWeight: '600' }], // 28px
+        'subheading': ['1.5rem', { lineHeight: '1.4', fontWeight: '600' }],     // 24px
+        'body': ['1rem', { lineHeight: '1.6', fontWeight: '400' }],            // 16px
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
