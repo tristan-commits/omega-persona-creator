@@ -29,7 +29,7 @@ export function HeroSection({ onGetStarted, onSeeExample }: { onGetStarted: () =
                 variant="hero" 
                 size="xl"
                 onClick={onGetStarted}
-                className="group"
+                className="group bg-white text-black hover:bg-white/90"
               >
                 Create my persona
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -39,7 +39,7 @@ export function HeroSection({ onGetStarted, onSeeExample }: { onGetStarted: () =
                 variant="outline" 
                 size="xl"
                 onClick={onSeeExample}
-                className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 text-primary-foreground"
+                className="bg-white text-black border-white hover:bg-white/90"
               >
                 See Example
               </Button>
