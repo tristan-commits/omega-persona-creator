@@ -1,47 +1,31 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calculator, FileText, PieChart, Palette, Mail, Calendar, DollarSign, Users } from "lucide-react";
+import { MessageSquare, Palette, Package, Calculator } from "lucide-react";
 
 const tools = [
   {
-    icon: Calculator,
-    name: "ROI Calculator",
-    description: "Calculate your marketing return on investment",
-  },
-  {
-    icon: FileText,
-    name: "Content Planner",
-    description: "Plan and organize your content strategy",
-  },
-  {
-    icon: PieChart,
-    name: "Market Analyzer",
-    description: "Analyze market trends and competition",
+    icon: MessageSquare,
+    name: "Slogan Generator",
+    description: "Create catchy and memorable slogans for your brand",
+    url: "https://letsmetrix.com/tools/generate-slogan",
   },
   {
     icon: Palette,
-    name: "Brand Generator",
-    description: "Create your brand identity and guidelines",
+    name: "Shopify Theme Detector",
+    description: "Identify themes used by any Shopify store",
+    url: "https://letsmetrix.com/tools/shopify-theme-detector",
   },
   {
-    icon: Mail,
-    name: "Email Template Builder",
-    description: "Design professional email campaigns",
+    icon: Package,
+    name: "Shopify App Detector",
+    description: "Discover apps installed on Shopify stores",
+    url: "https://letsmetrix.com/tools/shopify-app-detector",
   },
   {
-    icon: Calendar,
-    name: "Social Media Scheduler",
-    description: "Schedule posts across multiple platforms",
-  },
-  {
-    icon: DollarSign,
-    name: "Pricing Calculator",
-    description: "Determine optimal pricing strategies",
-  },
-  {
-    icon: Users,
-    name: "Customer Journey Mapper",
-    description: "Visualize your customer's journey",
+    icon: Calculator,
+    name: "Product Pricing Calculator",
+    description: "Calculate optimal pricing for your products",
+    url: "https://letsmetrix.com/tools/product-pricing-calculator",
   },
 ];
 
@@ -58,8 +42,8 @@ export function MoreToolsSection() {
           </p>
         </div>
         
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
-          {tools.slice(0, 3).map((tool, index) => {
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          {tools.map((tool, index) => {
             const Icon = tool.icon;
             return (
               <Card 
@@ -77,8 +61,10 @@ export function MoreToolsSection() {
                     {tool.description}
                   </p>
                   
-                  <Button variant="ghost" size="sm" className="w-full hover:bg-primary hover:text-primary-foreground">
-                    Try Now
+                  <Button variant="ghost" size="sm" className="w-full hover:bg-primary hover:text-primary-foreground" asChild>
+                    <a href={tool.url} target="_blank" rel="noopener noreferrer">
+                      Try Now
+                    </a>
                   </Button>
                 </CardContent>
               </Card>
