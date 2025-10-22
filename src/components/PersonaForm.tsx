@@ -668,7 +668,6 @@ export function PersonaForm({ onComplete, onBack }: { onComplete: (data: Persona
           variant="outline"
           size="lg"
           onClick={handleBack}
-          disabled={currentStep === 1}
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back
