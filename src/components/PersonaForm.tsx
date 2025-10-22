@@ -94,7 +94,7 @@ const SOCIAL_NETWORK_OPTIONS = [
   "LinkedIn", "Twitter/X", "Facebook", "Instagram", "YouTube", "TikTok"
 ];
 
-export function PersonaForm({ onComplete }: { onComplete: (data: PersonaData) => void }) {
+export function PersonaForm({ onComplete, onBack }: { onComplete: (data: PersonaData) => void; onBack?: () => void }) {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<PersonaData>({
     name: "",
@@ -195,6 +195,8 @@ export function PersonaForm({ onComplete }: { onComplete: (data: PersonaData) =>
       setCurrentStep(currentStep - 1);
       setErrors({});
       window.scrollTo({ top: 0, behavior: "smooth" });
+    } else if (onBack) {
+      onBack();
     }
   };
 

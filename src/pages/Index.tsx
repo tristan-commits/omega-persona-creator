@@ -88,13 +88,18 @@ const Index = () => {
     }, 100);
   };
 
+  const handleBackToHome = () => {
+    setShowForm(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <div className="min-h-screen">
       {!personaData && <HeroSection onGetStarted={handleGetStarted} onSeeExample={handleSeeExample} />}
       
       {showForm && !personaData && (
         <div ref={formRef} id="form-section" className="bg-background">
-          <PersonaForm onComplete={handleComplete} />
+          <PersonaForm onComplete={handleComplete} onBack={handleBackToHome} />
         </div>
       )}
       
