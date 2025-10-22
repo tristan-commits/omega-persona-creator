@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
 import synctrackLogo from "@/assets/synctrack-logo.png";
 import omegaLogo from "@/assets/omega-logo.png";
-import instafeedLogo from "@/assets/instafeed-logo.png";
+import omegaShoppingFeedLogo from "@/assets/omega-shopping-feed-logo.jpeg";
 import trakpilotLogo from "@/assets/trakpilot-logo.png";
 
 const apps = [
@@ -11,21 +11,25 @@ const apps = [
     logo: synctrackLogo,
     name: "Synctrack PayPal Tracking Sync",
     description: "Automate PayPal tracking synchronization and reduce disputes with seamless order tracking.",
+    url: "https://apps.shopify.com/synctrack",
   },
   {
     logo: omegaLogo,
     name: "Omega Facebook Pixel",
     description: "Track conversions accurately with advanced Facebook Pixel integration and analytics.",
+    url: "https://apps.shopify.com/facebook-multi-pixels",
   },
   {
-    logo: instafeedLogo,
-    name: "Instafeed",
-    description: "Display your Instagram feed beautifully on your website to boost engagement.",
+    logo: omegaShoppingFeedLogo,
+    name: "Omega Shopping Feed",
+    description: "Optimize your product feeds for Google Shopping and other channels to boost sales.",
+    url: "https://apps.shopify.com/google-shopping-feed-pro",
   },
   {
     logo: trakpilotLogo,
     name: "Trakpilot",
     description: "Advanced shipment tracking and customer notifications for better post-purchase experience.",
+    url: "https://apps.shopify.com/trakpilot-google-ads-tracking",
   },
 ];
 
@@ -63,9 +67,11 @@ export function CrossSellSection() {
                     {app.description}
                   </p>
                   
-                  <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                    Learn More
-                    <ExternalLink className="ml-2 h-4 w-4" />
+                  <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors" asChild>
+                    <a href={app.url} target="_blank" rel="noopener noreferrer">
+                      Learn More
+                      <ExternalLink className="ml-2 h-4 w-4" />
+                    </a>
                   </Button>
                 </CardContent>
               </Card>
