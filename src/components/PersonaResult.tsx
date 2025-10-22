@@ -6,6 +6,7 @@ import {
   User, Briefcase, Target, AlertCircle, Wrench, 
   MessageSquare, BookOpen, Share2, Download, RefreshCw 
 } from "lucide-react";
+import { jsPDF } from "jspdf";
 
 interface PersonaData {
   avatar?: string;
@@ -34,15 +35,153 @@ interface PersonaData {
 
 export function PersonaResult({ data, onReset }: { data: PersonaData; onReset: () => void }) {
   const handleExport = () => {
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${data.name.replace(/\s+/g, "-").toLowerCase()}-persona.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    const doc = new jsPDF();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const margin = 20;
+    let yPosition = 20;
+    
+    // Title
+    doc.setFontSize(20);
+    doc.setFont("helvetica", "bold");
+    doc.text("Buyer Persona", margin, yPosition);
+    yPosition += 15;
+    
+    // Name and Role
+    doc.setFontSize(16);
+    doc.text(data.name, margin, yPosition);
+    yPosition += 8;
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    doc.text(data.role, margin, yPosition);
+    yPosition += 10;
+    
+    // Basic Info
+    doc.setFontSize(10);
+    doc.text(`Age: ${data.age} | Education: ${data.education}`, margin, yPosition);
+    yPosition += 15;
+    
+    // Industry & Business
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("Industry & Business", margin, yPosition);
+    yPosition += 7;
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.text(`Industry: ${data.industry}`, margin, yPosition);
+    yPosition += 6;
+    doc.text(`Company Size: ${data.businessSize}`, margin, yPosition);
+    yPosition += 12;
+    
+    // Career Information
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("Career Information", margin, yPosition);
+    yPosition += 7;
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.text(`Job Title: ${data.jobTitle}`, margin, yPosition);
+    yPosition += 6;
+    doc.text(`Reports To: ${data.reportsTo}`, margin, yPosition);
+    yPosition += 12;
+    
+    // Goals
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("Goals & Objectives", margin, yPosition);
+    yPosition += 7;
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    const goalsLines = doc.splitTextToSize(data.goals, pageWidth - 2 * margin);
+    doc.text(goalsLines, margin, yPosition);
+    yPosition += goalsLines.length * 5 + 5;
+    doc.text(`Job Measured By: ${data.jobMeasurement}`, margin, yPosition);
+    yPosition += 12;
+    
+    // Check if we need a new page
+    if (yPosition > 250) {
+      doc.addPage();
+      yPosition = 20;
+    }
+    
+    // Challenges
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("Challenges", margin, yPosition);
+    yPosition += 7;
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    const allChallenges = [...data.challenges];
+    if (data.challengesOther) allChallenges.push(data.challengesOther);
+    allChallenges.forEach((challenge) => {
+      doc.text(`• ${challenge}`, margin, yPosition);
+      yPosition += 6;
+    });
+    yPosition += 6;
+    
+    // Pain Points
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("Pain Points", margin, yPosition);
+    yPosition += 7;
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    const allPainPoints = [...data.painPoints];
+    if (data.painPointsOther) allPainPoints.push(data.painPointsOther);
+    allPainPoints.forEach((painPoint) => {
+      doc.text(`• ${painPoint}`, margin, yPosition);
+      yPosition += 6;
+    });
+    yPosition += 6;
+    
+    // Check if we need a new page
+    if (yPosition > 250) {
+      doc.addPage();
+      yPosition = 20;
+    }
+    
+    // Tools Used
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("Tools Used", margin, yPosition);
+    yPosition += 7;
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    const allTools = [...data.tools];
+    if (data.toolsOther) allTools.push(data.toolsOther);
+    doc.text(allTools.join(", "), margin, yPosition, { maxWidth: pageWidth - 2 * margin });
+    yPosition += 12;
+    
+    // Communication Channels
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("Communication Channels", margin, yPosition);
+    yPosition += 7;
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.text(data.communication.join(", "), margin, yPosition, { maxWidth: pageWidth - 2 * margin });
+    yPosition += 12;
+    
+    // Information Sources
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("Information Sources", margin, yPosition);
+    yPosition += 7;
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.text(data.infoSources.join(", "), margin, yPosition, { maxWidth: pageWidth - 2 * margin });
+    yPosition += 12;
+    
+    // Social Networks
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("Social Networks", margin, yPosition);
+    yPosition += 7;
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.text(data.socialNetworks.join(", "), margin, yPosition, { maxWidth: pageWidth - 2 * margin });
+    
+    // Save the PDF
+    doc.save(`${data.name.replace(/\s+/g, "-").toLowerCase()}-persona.pdf`);
   };
 
   const allChallenges = [...data.challenges];
@@ -262,7 +401,7 @@ export function PersonaResult({ data, onReset }: { data: PersonaData; onReset: (
       <div className="flex flex-wrap gap-4 justify-center">
         <Button variant="hero" size="lg" onClick={handleExport}>
           <Download className="mr-2 h-4 w-4" />
-          Export as JSON
+          Export to PDF
         </Button>
         <Button variant="outline" size="lg" onClick={onReset}>
           <RefreshCw className="mr-2 h-4 w-4" />

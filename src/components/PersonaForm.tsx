@@ -183,7 +183,6 @@ export function PersonaForm({ onComplete, onBack }: { onComplete: (data: Persona
         toast.success("Persona created successfully!");
       } else {
         setCurrentStep(currentStep + 1);
-        window.scrollTo({ top: 0, behavior: "smooth" });
       }
     } else {
       toast.error("Please fill in all required fields");
@@ -194,7 +193,6 @@ export function PersonaForm({ onComplete, onBack }: { onComplete: (data: Persona
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
       setErrors({});
-      window.scrollTo({ top: 0, behavior: "smooth" });
     } else if (onBack) {
       onBack();
     }
