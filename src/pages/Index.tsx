@@ -105,7 +105,7 @@ const Index = () => {
       
       {personaData && <PersonaResult data={personaData} onReset={handleReset} />}
       
-      {!showForm && !personaData && (
+      {!personaData && (
         <>
           <HowToUseSection />
           <FeaturesSection />
